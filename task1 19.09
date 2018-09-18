@@ -2,10 +2,11 @@ function main(r)
   x=1;
   d='w';
   while r.is_bord('n') == 1
-    steps(x,d)
+    steps(r,x,d)
     ++x;
     d = reverse(d);
   endwhile
+  r.step('n')
 end
 
 function a=reverse(a)
@@ -33,10 +34,10 @@ function x=do_upora(r,a,b)
   endwhile
 end
 
-function steps(x,d)
+function steps(r,x,d)
   i=0;
   while(i<x)
-    r.step("w")
+    r.step(d)
     ++i;
   endwhile
 end
