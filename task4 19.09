@@ -31,10 +31,10 @@ function steps(r,x,d)
       p = reverse(p);
      endwhile
      r.step(d)
-     if l mod 2 != 0
-       p = reverse(p);
-       ++l;
-     endif
+     %if l mod 2 != 0
+     %  p = reverse(p);
+     %  ++l;
+     %endif
      steps(r,l/2,p)
      --n;
     endif
