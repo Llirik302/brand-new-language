@@ -1,0 +1,64 @@
+function main(r)
+  x=2;
+  while r.is_mark() == 0
+    r.step('o')
+    spiral(r,x)
+    x+=2;
+  endwhile
+end
+
+function spiral(r,x)
+  steps(r,x/2,'n')
+  for d = 'wso'
+      if r.is_mark() == 0
+        steps(r,x,d)
+      endif
+  endfor
+  steps(r,x/2,'n')
+endfunction
+
+function steps(r,x,d)
+  n=0;
+  while n<x
+    if r.is_mark() == 0 && r.is_bord(d) == 0
+      r.step(d)
+    elseif r.is_bord(d)==1
+     l=1;
+     p = reverse_perpendicularly(d)
+     while r.is_bord(d) == 1
+      steps(r,l,p)
+      ++l;
+      p = reverse(p);
+     endwhile
+     r.step(d)
+     if l mod 2 != 0
+       p = reverse(p);
+       ++l;
+     endif
+     steps(r,l/2,p)
+     --n;
+    endif
+    ++n;
+  endwhile
+end
+
+
+function p=reverse_perpendicularly(d)
+  if d == 'n' || d == 's'
+    p = 'w';
+  else
+    p = 's';
+  endif
+endfunction
+
+function a=reverse(a)
+  if a=='n'
+    a='s';
+  elseif a=='s'
+    a='n';
+  elseif a=='w'
+    a='o';
+  else 
+    a='w';
+  endif
+end
