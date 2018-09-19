@@ -1,9 +1,12 @@
 function main(r)
   x=2;
   while r.is_mark() == 0
-    r.step('o')
+    steps(r,1,'o')
     spiral(r,x)
     x+=2;
+    if x>12 
+      break
+    endif
   endwhile
 end
 
@@ -31,12 +34,11 @@ function steps(r,x,d)
       p = reverse(p);
      endwhile
      r.step(d)
-     %if l mod 2 != 0
-     %  p = reverse(p);
-     %  ++l;
-     %endif
+     if mod (l,2) != 0
+       ++l;
+     endif
      steps(r,l/2,p)
-     --n;
+     ++n;
     endif
     ++n;
   endwhile
