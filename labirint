@@ -1,0 +1,53 @@
+function main(r)
+  r.mark
+  x=0;
+  y=0;
+  wall='n'
+  d='o'
+  r.step(d)
+  x++;
+  while( x != 0 && y  != 0)
+    steps(d,x,y,wall)
+    if (x !=0 && y!=0)
+      r.step(wall)
+      r.mark()
+    end
+    d = define(wall)
+  endwhile
+end    
+
+function d=define(r,wall)
+  switch wall
+   case 'o'
+    d = 'o';
+    wall = 'n';    
+   case 'n'
+    d = 'n';  
+    wall = 'o';  
+   case 'w'
+    d = 'w';
+    wall = 's';   
+   case 's'
+    d = 's';
+    wall = 'o';
+   end
+endfunction
+  
+function steps(r,d,x,y,wall)
+  while r.is_bord(wall) == 1
+    if x != 0 && y != 0 
+      r.step(d)
+      r.mark()
+      switch d
+        case 'n'
+          y+=1;
+        case 's'
+          y-=1;
+        case 'w'
+          x-=1;
+        case 'o'
+          x+=1;
+      end
+    end
+  endwhile
+endfunction 
