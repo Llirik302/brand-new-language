@@ -1,0 +1,88 @@
+function main(r)
+  x = 0;
+  y = 0;
+  wall=define(r,0)
+  d=define(r,wall)
+  while(x != 0 && y != 0)
+    steps(r,x,y,wall,d)
+  endwhile
+endfunction
+
+function steps(r,x,y,wall,d)
+  if (r.is_bord(wall) == 0)
+    r.step(wall)
+    r.mark()
+    add_coord(r,x,y,wall)
+    find(r,wall,d)
+  elseif(r.is_bord(d) == 1)
+    corner(r,wall,d)
+  else
+    r.step(d)
+    r.mark()
+    add_coord(d)
+  endif
+endfunction
+
+function d=define (r,wall)
+  if(wall != 0)
+    switch wall
+      case 'n'
+        d='o';
+      case 's'
+        d='w';
+      case 'w'
+        d='n';
+      case 'o'
+        d='s';
+    endswitch
+  else
+    for i = 1:'nosw'
+      if r.is_bord(i) == 1
+        d=i
+      endif
+    endfor
+endfunction
+ 
+function add_coord(r,x,y,d)
+  switch d 
+    case 'o'
+      ++x;
+    case 'w'
+      --x;
+    case 'n'
+      ++y;
+    case 's'
+      --y;
+endfunction
+
+function find(r,wall,d)
+  switch wall
+      case 'n'
+        wall = 'w';
+        d = 'n';
+      case 's'
+        wall = 'o';
+        d='s';
+      case 'w'
+        wall = 's';
+        d='w';
+      case 'o'
+        wall = 'n';
+        d='o';
+endfunction
+
+function corner(r,wall,d)
+  switch d
+      case 'n'
+        wall = 'n';
+        d = 'o';
+      case 's'
+        wall = 's';
+        d = 'w';
+      case 'w'
+        wall = 'w';
+        d = 'n';
+      case 'o'
+        wall = 'o';
+        d = 's'
+endfunction
