@@ -1,20 +1,23 @@
+
 function main (r)
   x = 0;
   y = 0;
-  wall=define(r,0)
-  d=define(r,wall)
-  while(x != 0 && y != 0)
+  wall= '0';
+  d='0';
+  wall = define(r,'0')
+  d = define(r,wall)
+  do
     steps(r,x,y,wall,d)
-  endwhile
+  until(x != 0 && y != 0)   
 endfunction
 
 function steps(r,x,y,wall,d)
-  if (r.is_bord(wall) == 0)
+  if r.is_bord(wall) == 0
     r.step(wall)
     r.mark()
     add_coord(r,x,y,wall)
     find(r,wall,d)
-  elseif(r.is_bord(d) == 1)
+  elseif r.is_bord(d) == 1
     corner(r,wall,d)
   else
     r.step(d)
@@ -23,8 +26,8 @@ function steps(r,x,y,wall,d)
   endif
 endfunction
 
-function d=define (r,wall)
-  if(wall != 0)
+function d = define (r,wall)
+  if(wall != '0')
     switch wall
       case 'n'
         d='o';
@@ -36,7 +39,7 @@ function d=define (r,wall)
         d='s';
     endswitch
   else
-    for i = 1:'nosw'
+    for i = 'nosw'
       if r.is_bord(i) == 1
         d=i
       endif
