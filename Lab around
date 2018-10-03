@@ -1,4 +1,4 @@
-function main(r)
+function main (r)
   x = 0;
   y = 0;
   wall=define(r,0)
@@ -41,6 +41,7 @@ function d=define (r,wall)
         d=i
       endif
     endfor
+  endif
 endfunction
  
 function add_coord(r,x,y,d)
@@ -53,6 +54,7 @@ function add_coord(r,x,y,d)
       ++y;
     case 's'
       --y;
+  endswitch
 endfunction
 
 function find(r,wall,d)
@@ -69,6 +71,7 @@ function find(r,wall,d)
       case 'o'
         wall = 'n';
         d='o';
+    endswitch
 endfunction
 
 function corner(r,wall,d)
@@ -85,4 +88,5 @@ function corner(r,wall,d)
       case 'o'
         wall = 'o';
         d = 's'
+    endswitch
 endfunction
