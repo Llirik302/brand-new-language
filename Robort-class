@@ -1,0 +1,29 @@
+Classdef Robort < handle 
+  properties (Access = private)
+    ort 
+    r
+  end
+  methods
+    function obj = Robot(r)
+      obj.ort = 0;
+      obj.r = r;
+    end
+    function step(obj)
+      obj.r.step(obj.get())
+    end
+    function side = get(obj)
+      SIDES = 'nwso'
+      side = SIDES(obj.ort+1);
+    end
+    function mark(obj)
+      obj.r.mark()
+    end
+    function b=is_mark(obj)
+      obj.r.is_mark();
+    end
+    function b = is_bord(obj,side)
+      b = obj.r.is_bord(side)
+    end
+    function t = opt_tmpr(obj)
+      t = obj.r.get_tmpr(obj)
+    end
