@@ -1,0 +1,78 @@
+function task_21(r, A)
+  a = length(A)
+  i = 1 
+  global x y 
+  while i <= a  
+    x = A(i)
+    i++;
+    y = A(i)
+    i++;  
+    go_to(r)
+  endwhile
+endfunction
+
+function go_to(r)
+  global x y 
+  x0 = x
+  y0 = y  
+  x = 0
+  y = 0 
+  dir = define(r)
+  while x != x0 && y != y0
+    if r.bord(dir) == 0
+      r.step(dir)
+      add_coord(r,dir)
+    else 
+      ort_d = change_dir(r,dir)
+      while r.bord(dir) == 1
+        j = 1
+        steps(r,j,ort_d)
+        reverse(r,ort_d)
+        j++;
+      endwhile
+    endif
+  endwhile
+  r.mark()
+  return_robot(r)
+endfunction
+
+function add_coord(r,direction)
+  global x y 
+  switch direction 
+    case 'o'
+      y++;
+    case 'w'
+      y--;
+    case 'n'
+      x++;
+    case 's'
+      x--;
+  endswitch
+endfunction
+      
+function dir = define(r)
+  global x y 
+  if x == max(abs(x),abs(y))
+    if x > 0 
+      dir = 'o'
+    else 
+      dir = 'w'
+    endif
+  else 
+    if y > 0 
+      dir = 'n'
+    else 
+      dir = 's'
+    endif
+  endif
+endfunction 
+
+function steps(r, length, direction)
+  global x y 
+  i = 0 
+  while (i < length) && (x != x0 && y != y0)
+    r.step(direction)
+    add_coord(r,direction)
+    i++;
+  endwhile  
+endfunction
