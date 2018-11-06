@@ -1,78 +1,102 @@
-function task_21(r, A)
+function new(r, A)
+  global x y cx cy
   a = length(A)
   i = 1 
-  global x y 
-  while i <= a  
+  while i <= a
     x = A(i)
-    i++;
+    i++
     y = A(i)
-    i++;  
+    i++;
+    cx = 0
+    cy = 0
+    go_to(r)
+    r.mark()
+    x = -1*x
+    y = -1*y
+    cx = 0 
+    cy = 0
     go_to(r)
   endwhile
 endfunction
 
 function go_to(r)
-  global x y 
-  x0 = x
-  y0 = y  
-  x = 0
-  y = 0 
-  dir = define(r)
-  while x != x0 && y != y0
-    if r.bord(dir) == 0
-      r.step(dir)
-      add_coord(r,dir)
-    else 
-      ort_d = change_dir(r,dir)
-      while r.bord(dir) == 1
-        j = 1
-        steps(r,j,ort_d)
-        reverse(r,ort_d)
-        j++;
-      endwhile
-    endif
-  endwhile
-  r.mark()
-  return_robot(r)
+  global x y cx cy
+  while x != cx || y != cy
+    dir = define(r, 0)
+    while x != cx
+      if r.is_bord(dir) != 1
+        r.step(dir)
+        add_coord(r,dir)
+      else 
+        go_around(r, dir)
+      endif 
+    endwhile
+    dir = define(r, 1)
+    while y != cy
+      if r.is_bord(dir) != 1
+        r.step(dir)
+        add_coord(r,dir)
+      else 
+        go_around(r, dir)
+      endif 
+    endwhile
+  endwhile 
 endfunction
 
 function add_coord(r,direction)
-  global x y 
+  global cx cy 
   switch direction 
     case 'o'
-      y++;
+      cx++
     case 'w'
-      y--;
+      cx--
     case 'n'
-      x++;
+      cy++
     case 's'
-      x--;
+      cy--
   endswitch
 endfunction
-      
-function dir = define(r)
-  global x y 
-  if x == max(abs(x),abs(y))
-    if x > 0 
-      dir = 'o'
+
+function dir = define(r,b)
+  global x y cx cy 
+  if b == 0 
+    if x - cx > 0 
+      dir = 'o';
     else 
-      dir = 'w'
+      dir = 'w';
     endif
   else 
-    if y > 0 
-      dir = 'n'
+    if y - cy > 0 
+      dir = 'n';
     else 
-      dir = 's'
+      dir = 's';
     endif
   endif
 endfunction 
 
-function steps(r, length, direction)
-  global x y 
-  i = 0 
-  while (i < length) && (x != x0 && y != y0)
-    r.step(direction)
-    add_coord(r,direction)
-    i++;
-  endwhile  
+function go_around(r, dir)
+  count = 1;
+  if dir == "n" || dir == "s"
+    d = 'w'
+  else 
+    d = 'n'
+  endif
+  while r.is_bord(dir) == 1
+    i=0;
+    while(i<count)
+      r.step(d)
+      add_coord(r,d)
+      ++i;
+    endwhile
+    ++count;
+    if d == 'n'
+      d='s'
+    elseif d=='s'
+      d='n'
+    elseif d=='w'
+      d='o'
+    else 
+      d='w'
+    endif
+  endwhile
 endfunction
